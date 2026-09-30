@@ -1,0 +1,14 @@
+Title: General Data Protection Regulation
+Source: European Union
+Publication date: 2016-04-27
+Effective date: 2018-05-25
+
+Article 12 — Transparent information
+
+The controller shall take appropriate measures to provide any information referred to in Articles 13 and 14 and any communication under Articles 15 to 22 and 34 relating to processing to the data subject in a concise, transparent, intelligible and easily accessible form, using clear and plain language.
+
+Article 13 — Information to be provided where personal data are collected from the data subject
+
+Where personal data relating to a data subject are collected from the data subject, the controller shall, at the time when personal data are obtained, provide the data subject with all of the following information:
+
+(a) the identity and the contact details of the controller and, where applicable, of the controller's representative;

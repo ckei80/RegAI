@@ -6,15 +6,19 @@ client = OpenAI(
 )
 
 
-def ask_llm(prompt: str) -> str:
+def ask_llm(
+    prompt: str,
+    response_format: dict | None = None,
+) -> str:
     response = client.chat.completions.create(
-        model="qwen/qwen3.6-35b",
+        model="qwen/qwen3.6-35b-a3b",
         messages=[
             {
                 "role": "user",
                 "content": prompt,
             }
         ],
+        response_format=response_format,
     )
 
     return response.choices[0].message.content
