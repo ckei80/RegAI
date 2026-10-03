@@ -12,3 +12,7 @@ Article 13 — Information to be provided where personal data are collected from
 Where personal data relating to a data subject are collected from the data subject, the controller shall, at the time when personal data are obtained, provide the data subject with all of the following information:
 
 (a) the identity and the contact details of the controller and, where applicable, of the controller's representative;
+
+(b) the purposes of the processing for which the personal data are intended;
+
+(c) the recipients or categories of recipients of the personal data, if any.
