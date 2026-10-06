@@ -9,8 +9,10 @@ class FakeEmbeddingProvider:
 
     def __init__(self, embeddings: dict[str, list[float]]):
         self.embeddings = embeddings
+        self.calls = []
 
     def embed(self, text: str) -> list[float]:
+        self.calls.append(text)
         return self.embeddings[text]
 
 
@@ -71,9 +73,32 @@ def test_semantic_retriever_ranks_most_similar_requirement_first():
         ],
     )
 
+    assert embedding_provider.calls == [
+        (
+            "Identity. "
+            "The company must identify the data controller."
+        ),
+        (
+            "Purpose. "
+            "The company must explain why personal data is processed."
+        ),
+    ]
+
     results = retriever.search(
         query=query,
     )
+
+    assert embedding_provider.calls == [
+        (
+            "Identity. "
+            "The company must identify the data controller."
+        ),
+        (
+            "Purpose. "
+            "The company must explain why personal data is processed."
+        ),
+        query,
+    ]
 
     assert results[0][0].requirement_id == "REQ-A"
     assert results[1][0].requirement_id == "REQ-B"

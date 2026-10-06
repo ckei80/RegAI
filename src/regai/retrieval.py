@@ -1,5 +1,7 @@
 from regai.embeddings import EmbeddingProvider
 from regai.regulatory_models import RegulatoryRequirement
+from regai.regulatory_retrieval import create_retrieval_representation
+
 
 
 def cosine_similarity(
@@ -43,7 +45,7 @@ class SemanticRetriever:
         self.embeddings = {
             requirement.requirement_id: (
                 self.embedding_provider.embed(
-                    self._requirement_text(requirement)
+                    create_retrieval_representation(requirement).text
                 )
             )
             for requirement in requirements

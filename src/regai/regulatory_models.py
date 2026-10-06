@@ -13,3 +13,6 @@ class RegulatoryRequirement(BaseModel):
     effective_date: str | None
     original_text: str
     analysis: RequirementAnalysis
+
+class RequirementRetrievalRepresentation(BaseModel):
+    text: str
