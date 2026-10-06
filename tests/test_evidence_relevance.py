@@ -81,3 +81,65 @@ def test_llm_distinguishes_relevant_evidence():
         assessments["chunk-001"].relevance
         == EvidenceRelevance.RELEVANT
     )
+    
+
+def test_llm_identifies_when_no_relevant_evidence_exists():
+    requirement = RegulatoryRequirement(
+        requirement_id="ART13-B",
+        source="GDPR",
+        section="Article 13",
+        effective_date="2018-05-25",
+        original_text=(
+            "The purposes of the processing for which the personal data "
+            "are intended."
+        ),
+        analysis={
+            "topic": "Purpose of processing",
+            "interpretation": (
+                "Explain the purposes for which personal data is processed."
+            ),
+        },
+    )
+
+    candidates = [
+        create_chunk(
+            "chunk-005",
+            "Legal basis for processing",
+            "We process personal data where we have a lawful basis to do so.",
+        ),
+        create_chunk(
+            "chunk-006",
+            "Data retention",
+            "We retain personal data only for as long as necessary.",
+        ),
+        create_chunk(
+            "chunk-008",
+            "Your rights",
+            "You have the right to request access to your personal data.",
+        ),
+    ]
+
+    result = assess_evidence_relevance(
+        requirement=requirement,
+        candidates=candidates,
+    )
+
+    assessments = {
+        assessment.chunk_id: assessment
+        for assessment in result.assessments
+    }
+
+    assert (
+        assessments["chunk-005"].relevance
+        == EvidenceRelevance.NOT_RELEVANT
+    )
+
+    assert (
+        assessments["chunk-006"].relevance
+        == EvidenceRelevance.NOT_RELEVANT
+    )
+
+    assert (
+        assessments["chunk-008"].relevance
+        == EvidenceRelevance.NOT_RELEVANT
+    )

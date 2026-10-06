@@ -46,8 +46,18 @@ The requirement_id is exactly:
 You MUST return this exact value as requirement_id for every
 assessment. Do not use a chunk_id as the requirement_id.
 
-A candidate is relevant if its observed content directly addresses
-the subject of the requirement.
+A candidate is relevant only if its observed content contains
+information that could help determine whether this specific
+regulatory requirement is addressed.
+
+Do not classify evidence as relevant merely because it concerns the
+same broad topic.
+
+For example, evidence about the lawful basis for processing,
+retention periods, or data-subject rights is not relevant to a
+requirement specifically concerning the purposes of processing,
+unless the evidence actually provides information about those
+purposes.
 
 Do not determine legal compliance.
 Do not infer facts that are not present in the evidence.
