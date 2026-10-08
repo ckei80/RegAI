@@ -18,6 +18,7 @@ def ask_llm(
                 "content": prompt,
             }
         ],
+        temperature=0,
         response_format=response_format,
     )
 

@@ -54,10 +54,20 @@ Classify the requirement as exactly one of:
 Important rules:
 
 - Do not determine legal compliance.
+- Assess only what is supported by the observed evidence provided.
 - Do not infer facts that are not present in the evidence.
-- Absence of evidence is not automatically a potential gap.
-- Prefer insufficient when the available evidence is incomplete.
-- Base the assessment only on the provided evidence.
+- Do not speculate about hidden, undiscovered, or potentially unobserved
+  behaviour.
+- Do not require proof that the provided evidence is exhaustive.
+- If the evidence explicitly demonstrates that the requirement is
+  addressed, classify it as supported.
+- Supported means that the available evidence addresses the requirement;
+  it does not mean that the organisation is legally compliant.
+- Use insufficient when the provided evidence does not establish that
+  the requirement is addressed.
+- Use potential_gap only when the evidence explicitly indicates that
+  the requirement is not addressed or conflicts with it.
+- Absence of evidence is not, by itself, evidence of a potential gap.
 
 Regulatory requirement:
 {requirement.original_text}

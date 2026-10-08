@@ -115,3 +115,52 @@ def test_llm_identifies_potential_gap():
 
     assert result.requirement_id == requirement.requirement_id
     assert result.assessment == RequirementAssessment.POTENTIAL_GAP
+
+
+def test_requirement_is_insufficient_when_purpose_is_not_provided():
+    requirement = create_requirement()
+
+    evidence = [
+        EvidenceChunk(
+            chunk_id="chunk-001",
+            source_url="https://example.com/privacy",
+            page_title="Privacy Policy",
+            section_heading="Personal data collected",
+            text="We collect your email address.",
+            retrieval_date="2026-10-08",
+        ),
+    ]
+
+    result = assess_requirement(
+        requirement=requirement,
+        evidence=evidence,
+    )
+
+    assert result.requirement_id == requirement.requirement_id
+    assert result.assessment == RequirementAssessment.INSUFFICIENT
+
+
+def test_requirement_is_potential_gap_when_evidence_explicitly_conflicts():
+    requirement = create_requirement()
+
+    evidence = [
+        EvidenceChunk(
+            chunk_id="chunk-001",
+            source_url="https://example.com/privacy",
+            page_title="Privacy Policy",
+            section_heading="Use of personal data",
+            text=(
+                "We collect your email address but do not tell users "
+                "why we use it."
+            ),
+            retrieval_date="2026-10-08",
+        ),
+    ]
+
+    result = assess_requirement(
+        requirement=requirement,
+        evidence=evidence,
+    )
+
+    assert result.requirement_id == requirement.requirement_id
+    assert result.assessment == RequirementAssessment.POTENTIAL_GAP
