@@ -130,7 +130,7 @@ def test_assessment_pipeline_returns_requirement_assessment(monkeypatch):
     assert result.assessment == RequirementAssessment.SUPPORTED
 
 
-def test_assessment_pipeline_returns_none_when_no_relevant_evidence(
+def test_assessment_pipeline_returns_potential_gap_when_no_relevant_evidence(
     monkeypatch,
 ):
     requirement = create_requirement()
@@ -176,4 +176,6 @@ def test_assessment_pipeline_returns_none_when_no_relevant_evidence(
         evidence_retriever=FakeEvidenceRetriever(),
     )
 
-    assert result is None
+    assert result is not None
+    assert result.requirement_id == requirement.requirement_id
+    assert result.assessment == RequirementAssessment.POTENTIAL_GAP

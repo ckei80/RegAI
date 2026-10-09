@@ -5,6 +5,7 @@ from regai.evidence_relevance import (
 )
 from regai.evidence_retrieval import EvidenceRetriever
 from regai.requirement_assessment import (
+    RequirementAssessment,
     RequirementAssessmentResult,
     assess_requirement,
 )
@@ -51,7 +52,15 @@ def assess_regulatory_requirement(
     ]
 
     if not relevant_evidence:
-        return None
+        return RequirementAssessmentResult(
+            requirement_id=requirement.requirement_id,
+            assessment=RequirementAssessment.POTENTIAL_GAP,
+            explanation=(
+                "No available evidence was found that demonstrates "
+                "that this requirement is addressed."
+            ),
+    )
+
 
     return assess_requirement(
         requirement=requirement,

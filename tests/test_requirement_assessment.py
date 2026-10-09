@@ -61,10 +61,6 @@ def test_llm_assesses_requirement_from_multiple_evidence_items():
         evidence=evidence,
     )
 
-    print()
-    print("Assessment:", result.assessment)
-    print("Explanation:", result.explanation)
-
     assert result.requirement_id == requirement.requirement_id
     assert result.assessment == RequirementAssessment.SUPPORTED
 
@@ -85,10 +81,6 @@ def test_llm_identifies_insufficient_requirement_evidence():
         evidence=evidence,
     )
 
-    print()
-    print("Assessment:", result.assessment)
-    print("Explanation:", result.explanation)
-
     assert result.requirement_id == requirement.requirement_id
     assert result.assessment == RequirementAssessment.INSUFFICIENT
 
@@ -108,10 +100,6 @@ def test_llm_identifies_potential_gap():
         requirement=requirement,
         evidence=evidence,
     )
-
-    print()
-    print("Assessment:", result.assessment)
-    print("Explanation:", result.explanation)
 
     assert result.requirement_id == requirement.requirement_id
     assert result.assessment == RequirementAssessment.POTENTIAL_GAP
