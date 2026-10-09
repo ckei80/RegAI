@@ -1,0 +1,52 @@
+[
+  {
+    "filename": "01_explicit_purpose.html",
+    "expected_assessment": "supported",
+    "smoke": true
+  },
+  {
+    "filename": "02_multiple_purposes.html",
+    "expected_assessment": "supported",
+    "smoke": false
+  },
+  {
+    "filename": "03_vague_business_purpose.html",
+    "expected_assessment": "insufficient",
+    "smoke": true
+  },
+  {
+    "filename": "04_data_collection_only.html",
+    "expected_assessment": "potential_gap",
+    "smoke": false
+  },
+  {
+    "filename": "05_legal_basis_only.html",
+    "expected_assessment": "potential_gap",
+    "smoke": false
+  },
+  {
+    "filename": "06_retention_only.html",
+    "expected_assessment": "potential_gap",
+    "smoke": false
+  },
+  {
+    "filename": "07_explicit_missing_purpose.html",
+    "expected_assessment": "potential_gap",
+    "smoke": true
+  },
+  {
+    "filename": "08_purpose_plus_unrelated.html",
+    "expected_assessment": "supported",
+    "smoke": false
+  },
+  {
+    "filename": "09_implied_purpose.html",
+    "expected_assessment": "potential_gap",
+    "smoke": false
+  },
+  {
+    "filename": "10_unrelated_privacy_content.html",
+    "expected_assessment": "potential_gap",
+    "smoke": false
+  }
+]

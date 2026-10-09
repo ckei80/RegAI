@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -10,11 +11,18 @@ from regai.embeddings import LocalEmbeddingProvider
 from regai.requirement_assessment import RequirementAssessment
 from regai.regulatory_models import RegulatoryRequirement
 
+
+EVALUATION_DIR = Path("data/sample/exampleshop/evaluation")
+CASES_FILE = EVALUATION_DIR / "cases.json"
+
+
 @pytest.fixture(scope="session")
 def embedding_provider():
     return LocalEmbeddingProvider()
 
-EVALUATION_DIR = Path("data/sample/exampleshop/evaluation")
+
+def load_cases() -> list[dict]:
+    return json.loads(CASES_FILE.read_text(encoding="utf-8"))
 
 
 def create_requirement() -> RegulatoryRequirement:
@@ -37,9 +45,7 @@ def create_requirement() -> RegulatoryRequirement:
 
 
 def load_chunks(filename: str) -> list[EvidenceChunk]:
-    html = (
-        EVALUATION_DIR / filename
-    ).read_text(encoding="utf-8")
+    html = (EVALUATION_DIR / filename).read_text(encoding="utf-8")
 
     return create_evidence_chunks(
         html=html,
@@ -48,62 +54,27 @@ def load_chunks(filename: str) -> list[EvidenceChunk]:
     )
 
 
+CASES = load_cases()
+
+
 @pytest.mark.parametrize(
-    "filename, expected_assessment",
+    "case",
     [
         pytest.param(
-            "01_explicit_purpose.html",
-            RequirementAssessment.SUPPORTED,
-            marks=pytest.mark.smoke,
-        ),
-        pytest.param(
-            "02_multiple_purposes.html",
-            RequirementAssessment.SUPPORTED,
-        ),
-        pytest.param(
-            "03_vague_business_purpose.html",
-            RequirementAssessment.INSUFFICIENT,
-            marks=pytest.mark.smoke,
-        ),
-        (
-            "04_data_collection_only.html",
-            RequirementAssessment.POTENTIAL_GAP,
-        ),
-        (
-            "05_legal_basis_only.html",
-            RequirementAssessment.POTENTIAL_GAP,
-        ),
-        (
-            "06_retention_only.html",
-            RequirementAssessment.POTENTIAL_GAP,
-        ),
-        pytest.param(
-            "07_explicit_missing_purpose.html",
-            RequirementAssessment.POTENTIAL_GAP,
-            marks=pytest.mark.smoke,
-        ),
-        (
-            "08_purpose_plus_unrelated.html",
-            RequirementAssessment.SUPPORTED,
-        ),
-        (
-            "09_implied_purpose.html",
-            RequirementAssessment.POTENTIAL_GAP,
-        ),
-        (
-            "10_unrelated_privacy_content.html",
-            RequirementAssessment.POTENTIAL_GAP,
-        ),
+            case,
+            marks=pytest.mark.smoke if case["smoke"] else (),
+            id=case["filename"],
+        )
+        for case in CASES
     ],
 )
 
 def test_exampleshop_evaluation(
-    filename: str,
-    expected_assessment: RequirementAssessment,
+    case: dict,
     embedding_provider: LocalEmbeddingProvider,
 ):
     requirement = create_requirement()
-    chunks = load_chunks(filename)
+    chunks = load_chunks(case["filename"])
 
     evidence_retriever = EvidenceRetriever(
         embedding_provider=embedding_provider,
@@ -116,7 +87,9 @@ def test_exampleshop_evaluation(
         top_k=5,
     )
 
+    expected_assessment = RequirementAssessment(case["expected_assessment"])
+
     assert result is not None
-    assert result.requirement_id == "ART13-B"
+    assert result.requirement_id == requirement.requirement_id
     assert result.assessment == expected_assessment
     assert result.explanation
