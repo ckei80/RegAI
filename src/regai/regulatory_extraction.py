@@ -102,8 +102,6 @@ Source segments:
         response_format=response_format,
     )
 
-    print("LLM response:", response)
-
     data = json.loads(response)
 
     requirements = []

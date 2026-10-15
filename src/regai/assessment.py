@@ -5,7 +5,6 @@ from regai.evidence_relevance import (
 )
 from regai.evidence_retrieval import EvidenceRetriever
 from regai.requirement_assessment import (
-    RequirementAssessment,
     RequirementAssessmentResult,
     assess_document_for_omission,
     assess_requirement,
@@ -57,7 +56,6 @@ def assess_regulatory_requirement(
             requirement=requirement,
             evidence=evidence_retriever.chunks,
         )
-
 
     return assess_requirement(
         requirement=requirement,

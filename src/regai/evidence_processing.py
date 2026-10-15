@@ -37,7 +37,7 @@ def extract_sections(html: str) -> list[dict[str, str | None]]:
     current_parts = []
 
     for element in soup.find_all(
-        ["h2", "h3", "h4", "h5", "h6", "p", "li"]
+        ["h1", "h2", "h3", "h4", "h5", "h6", "p", "li"]
     ):
         text = element.get_text(" ", strip=True)
 

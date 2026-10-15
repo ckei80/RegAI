@@ -1,17 +1,18 @@
 from openai import OpenAI
 
-client = OpenAI(
-    base_url="http://localhost:1234/v1",
-    api_key="lm-studio",
-)
+from regai.config import load_ai_config
 
 
-def ask_llm(
-    prompt: str,
-    response_format: dict | None = None,
-) -> str:
+def ask_llm(prompt: str, response_format: dict | None = None) -> str:
+    config = load_ai_config()
+
+    client = OpenAI(
+        base_url=config.base_url,
+        api_key=config.api_key,
+    )
+
     response = client.chat.completions.create(
-        model="qwen/qwen3.6-35b-a3b",
+        model=config.model,
         messages=[
             {
                 "role": "user",

@@ -12,6 +12,8 @@ dependencies = [
     "pydantic",
     "requests",
     "beautifulsoup4",
+    "nicegui",
+    "keyring",
 ]
 
 [tool.setuptools.packages.find]

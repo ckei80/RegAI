@@ -1,11 +1,5 @@
-from regai.evidence_source import (
-    EvidenceSource,
-    EvidenceSourceType,
-)
-
 import requests
 
-from regai.evidence_processing import extract_text
 from regai.evidence_source import (
     EvidenceSource,
     EvidenceSourceType,
@@ -13,18 +7,25 @@ from regai.evidence_source import (
 
 
 def fetch_web_page(url: str) -> EvidenceSource:
-
     response = requests.get(
         url,
         timeout=10,
+        headers={
+            "User-Agent": "RegAI/0.1",
+        },
     )
-
     response.raise_for_status()
 
-    content = extract_text(response.text)
+    content_type = response.headers.get("Content-Type", "").lower()
+
+    if "text/html" not in content_type:
+        raise ValueError(
+            "The URL did not return an HTML page. "
+            "PDF and other document formats are not supported yet."
+        )
 
     return EvidenceSource(
         source_type=EvidenceSourceType.WEB_PAGE,
-        url=url,
-        content=content,
+        url=response.url,
+        content=response.text,
     )
